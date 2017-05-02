@@ -1,0 +1,43 @@
+{
+  "name": "gendiff-ver2",
+  "version": "1.0.1",
+  "description": "gendiff project lvl 2 ",
+  "main": "index.js",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "dependencies": {
+    "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "jest": "^19.0.2"
+  },
+  "scripts": {
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build",
+    "eslint": "eslint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krivtsov/project-lvl2-s93.git"
+  },
+  "keywords": [
+    "gendiff"
+  ],
+  "author": "Krivtsov Sergey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krivtsov/project-lvl2-s93/issues"
+  },
+  "homepage": "https://github.com/krivtsov/project-lvl2-s93#readme"
+}
