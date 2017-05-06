@@ -19,65 +19,64 @@ const nestedBeforeYaml = './__tests__/__fixtures__/yaml/nested/before.yml';
 const nestedAfterYaml = './__tests__/__fixtures__/yaml/nested/after.yml';
 
 const equal = `{
-  host: hexlet.io
-+ timeout: 20
-- timeout: 50
-- proxy: 123.234.53.22
-+ verbose: true
+    host: hexlet.io
+  + timeout: 20
+  - timeout: 50
+  - proxy: 123.234.53.22
+  + verbose: true
 }`;
 
-const nestedEqualWithoutSpaces = `{
-  common: {
-  setting1: Value 1
-- setting2: 200
-  setting3: true
-- setting6: {
-  key: value
-}
-+ setting4: blah blah
-+ setting5: {
-  key5: value5
-}
-}
-  group1: {
-+ baz: bars
-- baz: bas
-  foo: bar
-}
-- group2: {
-  abc: 12345
-}
-+ group3: {
-  fee: 100500
-}
-}`;
-
-// const nestedEqual =
-// `{
-//     common: {
-//         setting1: Value 1
-//       - setting2: 200
-//         setting3: true
-//     - setting6: {
-//         key: value
-//         }
-//       + setting4: blah blah
-//       + setting5: {
-//           key5: value5
-//           }
-//       }
-//     group1: {
-//       + baz: bars
-//       - baz: bas
-//         foo: bar
-//     }
-//     - group2: {
-//         abc: 12345
-//     }
-//     + group3: {
-//         fee: 100500
-//     }
+// const nestedEqualWithoutSpaces = `{
+//   common: {
+//   setting1: Value 1
+// - setting2: 200
+//   setting3: true
+// - setting6: {
+//   key: value
+// }
+// + setting4: blah blah
+// + setting5: {
+//   key5: value5
+// }
+// }
+//   group1: {
+// + baz: bars
+// - baz: bas
+//   foo: bar
+// }
+// - group2: {
+//   abc: 12345
+// }
+// + group3: {
+//   fee: 100500
+// }
 // }`;
+
+const nestedEqual = `{
+    common: {
+        setting1: Value 1
+      - setting2: 200
+        setting3: true
+      - setting6: {
+          key: value
+        }
+      + setting4: blah blah
+      + setting5: {
+          key5: value5
+        }
+    }
+    group1: {
+      + baz: bars
+      - baz: bas
+        foo: bar
+    }
+  - group2: {
+        abc: 12345
+    }
+  + group3: {
+        fee: 100500
+    }
+}`;
 
 test('test JSON', () => {
   expect(gendiff(beforeJson, afterJson)).toBe(equal);
@@ -91,14 +90,26 @@ test('test INI', () => {
   expect(gendiff(beforeIni, afterIni)).toBe(equal);
 });
 
-test('test nestedJSON without spaces', () => {
-  expect(gendiff(nestedBeforeJson, nestedAfterJson)).toBe(nestedEqualWithoutSpaces);
+// test('test nestedJSON without spaces', () => {
+//   expect(gendiff(nestedBeforeJson, nestedAfterJson)).toBe(nestedEqualWithoutSpaces);
+// });
+//
+// test('test nestedINI without spaces', () => {
+//   expect(gendiff(nestedBeforeIni, nestedAfterIni)).toBe(nestedEqualWithoutSpaces);
+// });
+//
+// test('test nestedYAML without spaces', () => {
+//   expect(gendiff(nestedBeforeYaml, nestedAfterYaml)).toBe(nestedEqualWithoutSpaces);
+// });
+
+test('test nestedJSON', () => {
+  expect(gendiff(nestedBeforeJson, nestedAfterJson)).toBe(nestedEqual);
 });
 
-test('test nestedINI without spaces', () => {
-  expect(gendiff(nestedBeforeIni, nestedAfterIni)).toBe(nestedEqualWithoutSpaces);
+test('test nestedINI', () => {
+  expect(gendiff(nestedBeforeIni, nestedAfterIni)).toBe(nestedEqual);
 });
 
-test('test nestedYAML without spaces', () => {
-  expect(gendiff(nestedBeforeYaml, nestedAfterYaml)).toBe(nestedEqualWithoutSpaces);
+test('test nestedYAML', () => {
+  expect(gendiff(nestedBeforeYaml, nestedAfterYaml)).toBe(nestedEqual);
 });
