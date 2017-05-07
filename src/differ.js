@@ -8,20 +8,20 @@ const getDifferenceObjects = (firstObject, secondObject) => {
   const arrayDiff = uniqKeys.reduce((acc, key) => {
     if (key in firstObject && key in secondObject) {
       if (firstObject[key] instanceof Object || secondObject[key] instanceof Object) {
-        const result = { type: 'noChangedChildren',
+        const result = { type: 'children',
           body: {
             key,
-            value: getDifferenceObjects(firstObject[key], secondObject[key]),
+            oldValue: getDifferenceObjects(firstObject[key], secondObject[key]),
           },
         };
         return [...acc, result];
       }
 
       if (firstObject[key] === secondObject[key]) {
-        const result = { type: 'noChanged',
+        const result = { type: 'same',
           body: {
             key,
-            value: firstObject[key],
+            oldValue: firstObject[key],
           },
         };
         return [...acc, result];
@@ -32,7 +32,7 @@ const getDifferenceObjects = (firstObject, secondObject) => {
         body: {
           key,
           newValue: secondObject[key],
-          value: firstObject[key],
+          oldValue: firstObject[key],
         },
       };
       return [...acc, result];
@@ -43,7 +43,7 @@ const getDifferenceObjects = (firstObject, secondObject) => {
         type: 'deleted',
         body: {
           key,
-          value: firstObject[key],
+          oldValue: firstObject[key],
         },
       };
       return [...acc, result];
@@ -52,7 +52,7 @@ const getDifferenceObjects = (firstObject, secondObject) => {
       type: 'add',
       body: {
         key,
-        value: secondObject[key],
+        oldValue: secondObject[key],
       },
     };
     return [...acc, result];

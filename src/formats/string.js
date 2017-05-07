@@ -12,20 +12,20 @@ const getString = (ast) => {
     };
 
     const result = tree.reduce((acc, obj) => {
-      if (obj.type === 'noChanged') {
-        return `${acc}\n${indent}    ${obj.body.key}: ${obj.body.value}`;
+      if (obj.type === 'same') {
+        return `${acc}\n${indent}    ${obj.body.key}: ${obj.body.oldValue}`;
       }
       if (obj.type === 'changed') {
-        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.newValue)}\n${indent}  - ${stringify(obj.body.key)}: ${obj.body.value}`;
+        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.newValue)}\n${indent}  - ${stringify(obj.body.key)}: ${stringify(obj.body.oldValue)}`;
       }
       if (obj.type === 'deleted') {
-        return `${acc}\n${indent}  - ${obj.body.key}: ${stringify(obj.body.value)}`;
+        return `${acc}\n${indent}  - ${obj.body.key}: ${stringify(obj.body.oldValue)}`;
       }
       if (obj.type === 'add') {
-        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.value)}`;
+        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.oldValue)}`;
       }
-      if (obj.type === 'noChangedChildren') {
-        return `${acc}\n    ${indent}${obj.body.key}: {${iter(obj.body.value, lvl + 1)}\n    ${indent}}`;
+      if (obj.type === 'children') {
+        return `${acc}\n    ${indent}${obj.body.key}: {${iter(obj.body.oldValue, lvl + 1)}\n    ${indent}}`;
       }
       return acc;
     }, '');

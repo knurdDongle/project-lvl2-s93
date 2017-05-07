@@ -1,37 +1,42 @@
-import _ from 'lodash';
-
-const getPlain = (ast) => {
-  const iter = (tree, lvl) => {
-    const indent = _.repeat(' ', 4 * lvl);
-    const stringify = (elem) => {
-      if (elem instanceof Object) {
-        const result = JSON.stringify(elem, null, 8 + (4 * lvl)).replace(/["]/g, '');
-        return `{${result.slice(1, -1)}    ${indent}}`;
-      }
-      return elem;
-    };
-
-    const result = tree.reduce((acc, obj) => {
-      if (obj.type === 'noChanged') {
-        return `${acc}\n${indent}    ${obj.body.key}: ${obj.body.value}`;
-      }
-      if (obj.type === 'changed') {
-        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.newValue)}\n${indent}  - ${stringify(obj.body.key)}: ${obj.body.value}`;
-      }
-      if (obj.type === 'deleted') {
-        return `${acc}\n${indent}  - ${obj.body.key}: ${stringify(obj.body.value)}`;
-      }
-      if (obj.type === 'add') {
-        return `${acc}\n${indent}  + ${obj.body.key}: ${stringify(obj.body.value)}`;
-      }
-      if (obj.type === 'noChangedChildren') {
-        return `${acc}\n    ${indent}${obj.body.key}: {${iter(obj.body.value, lvl + 1)}\n    ${indent}}`;
-      }
-      return acc;
-    }, '');
-    return result;
-  };
-  return `{${iter(ast, 0)}\n}`;
+const stringify = (elem) => {
+  if (elem instanceof Object) {
+    const result = JSON.stringify(elem).replace(/["]/g, '');
+    return `${result.slice(1, -1)}`;
+  }
+  return `${elem}`;
 };
+
+const checkValue = (obj) => {
+  if (obj instanceof Object) {
+    return 'complex value';
+  }
+  return `value: ${stringify(obj)}`;
+};
+
+const checkParam = (param) => {
+  if (param === '') {
+    return '';
+  }
+  return `${param}.`;
+};
+const getPlain = (ast, param = '') => {
+  const result = ast.map((obj) => {
+    if (obj.type === 'changed') {
+      return `Property '${checkParam(param)}${obj.body.key}' was updated. From '${stringify(obj.body.oldValue)}' to '${stringify(obj.body.newValue)}'`;
+    }
+    if (obj.type === 'deleted') {
+      return `Property '${checkParam(param)}${obj.body.key}' was removed`;
+    }
+    if (obj.type === 'add') {
+      return `Property '${checkParam(param)}${obj.body.key}' was added with ${checkValue(obj.body.oldValue)}`;
+    }
+    if (obj.type === 'children') {
+      return getPlain(obj.body.oldValue, obj.body.key);
+    }
+    return '';
+  });
+  return result.filter(el => el !== '').join('\n');
+};
+
 
 export default getPlain;
