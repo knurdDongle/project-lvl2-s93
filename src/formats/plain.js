@@ -13,25 +13,25 @@ const checkValue = (obj) => {
   return `value: ${stringify(obj)}`;
 };
 
-const checkParam = (param) => {
-  if (param === '') {
-    return '';
+const checkParam = (master, slave) => {
+  if (master === '') {
+    return `${slave}`;
   }
-  return `${param}.`;
+  return `${master}.${slave}`;
 };
 const getPlain = (ast, param = '') => {
   const result = ast.map((obj) => {
     if (obj.type === 'changed') {
-      return `Property '${checkParam(param)}${obj.body.key}' was updated. From '${stringify(obj.body.oldValue)}' to '${stringify(obj.body.newValue)}'`;
+      return `Property '${checkParam(param, obj.key)}' was updated. From '${stringify(obj.oldValue)}' to '${stringify(obj.newValue)}'`;
     }
     if (obj.type === 'deleted') {
-      return `Property '${checkParam(param)}${obj.body.key}' was removed`;
+      return `Property '${checkParam(param, obj.key)}' was removed`;
     }
     if (obj.type === 'add') {
-      return `Property '${checkParam(param)}${obj.body.key}' was added with ${checkValue(obj.body.oldValue)}`;
+      return `Property '${checkParam(param, obj.key)}' was added with ${checkValue(obj.oldValue)}`;
     }
     if (obj.type === 'children') {
-      return getPlain(obj.body.oldValue, obj.body.key);
+      return getPlain(obj.children, obj.key);
     }
     return '';
   });

@@ -1,14 +1,14 @@
 
 const getJson = (ast) => {
-  const result = ast.reduce((acc, obj) => {
-    acc[obj.type] = {
-      key: obj.body.key,
-      oldValue: obj.body.oldValue,
-      newValue: obj.body.newValue,
-      children: obj.body.children,
-    };
-    return acc;
-  }, {});
+  const result = ast.reduce((acc, obj) => ({
+    ...acc,
+    [obj.type]: {
+      key: obj.key,
+      oldValue: obj.oldValue,
+      newValue: obj.newValue,
+      children: obj.children,
+    },
+  }), {});
 
   return JSON.stringify(result, null, 2);
 };
