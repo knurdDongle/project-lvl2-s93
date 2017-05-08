@@ -32,7 +32,7 @@ const equal = `{
     "key": "proxy",
     "oldValue": "123.234.53.22"
   },
-  "add": {
+  "added": {
     "key": "verbose",
     "oldValue": true
   }

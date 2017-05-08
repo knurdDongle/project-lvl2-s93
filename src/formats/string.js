@@ -21,10 +21,10 @@ const getString = (ast) => {
       if (obj.type === 'deleted') {
         return `${acc}\n${indent}  - ${obj.key}: ${stringify(obj.oldValue)}`;
       }
-      if (obj.type === 'add') {
+      if (obj.type === 'added') {
         return `${acc}\n${indent}  + ${obj.key}: ${stringify(obj.oldValue)}`;
       }
-      if (obj.type === 'children') {
+      if (obj.attribute === 'children') {
         return `${acc}\n    ${indent}${obj.key}: {${iter(obj.children, lvl + 1)}\n    ${indent}}`;
       }
       return acc;

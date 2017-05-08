@@ -9,7 +9,7 @@ const getDifferenceObjects = (firstObject, secondObject) => {
     if (key in firstObject && key in secondObject) {
       if (firstObject[key] instanceof Object || secondObject[key] instanceof Object) {
         const result = {
-          type: 'children',
+          attribute: 'children',
           key,
           children: getDifferenceObjects(firstObject[key], secondObject[key]),
         };
@@ -43,7 +43,7 @@ const getDifferenceObjects = (firstObject, secondObject) => {
       return [...acc, result];
     }
     const result = {
-      type: 'add',
+      type: 'added',
       key,
       oldValue: secondObject[key],
     };
