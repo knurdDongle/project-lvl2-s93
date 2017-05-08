@@ -21,20 +21,27 @@ const afterIni = './__tests__/__fixtures__/ini/after.ini';
 const equal = `{
   "same": {
     "key": "host",
-    "oldValue": "hexlet.io"
+    "oldValue": "hexlet.io",
+    "newValue": "",
+    "children": []
   },
   "changed": {
     "key": "timeout",
     "oldValue": 50,
-    "newValue": 20
+    "newValue": 20,
+    "children": []
   },
   "deleted": {
     "key": "proxy",
-    "oldValue": "123.234.53.22"
+    "oldValue": "123.234.53.22",
+    "newValue": "",
+    "children": []
   },
   "added": {
     "key": "verbose",
-    "oldValue": true
+    "oldValue": true,
+    "newValue": "",
+    "children": []
   }
 }`;
 

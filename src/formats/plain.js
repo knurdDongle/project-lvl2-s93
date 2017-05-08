@@ -31,7 +31,9 @@ const getPlain = (ast, masterKey = '') => {
     if (obj.type === 'added') {
       return `Property '${makeFullProperty(masterKey, obj.key)}' was added with ${checkValue(obj.oldValue)}`;
     }
-    if (obj.attribute === 'children') {
+    // console.log(obj.children.length > 0);
+    if (obj.children.length > 0) {
+      // console.log(obj.children.length);
       return getPlain(obj.children, obj.key);
     }
     return '';

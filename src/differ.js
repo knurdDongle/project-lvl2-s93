@@ -9,8 +9,10 @@ const getDifferenceObjects = (firstObject, secondObject) => {
     if (key in firstObject && key in secondObject) {
       if (firstObject[key] instanceof Object || secondObject[key] instanceof Object) {
         const result = {
-          attribute: 'children',
+          type: '',
           key,
+          oldValue: '',
+          newValue: '',
           children: getDifferenceObjects(firstObject[key], secondObject[key]),
         };
         return [...acc, result];
@@ -21,6 +23,8 @@ const getDifferenceObjects = (firstObject, secondObject) => {
           type: 'same',
           key,
           oldValue: firstObject[key],
+          newValue: '',
+          children: [],
         };
         return [...acc, result];
       }
@@ -28,8 +32,9 @@ const getDifferenceObjects = (firstObject, secondObject) => {
       const result = {
         type: 'changed',
         key,
-        newValue: secondObject[key],
         oldValue: firstObject[key],
+        newValue: secondObject[key],
+        children: [],
       };
       return [...acc, result];
     }
@@ -39,6 +44,8 @@ const getDifferenceObjects = (firstObject, secondObject) => {
         type: 'deleted',
         key,
         oldValue: firstObject[key],
+        newValue: '',
+        children: [],
       };
       return [...acc, result];
     }
@@ -46,6 +53,8 @@ const getDifferenceObjects = (firstObject, secondObject) => {
       type: 'added',
       key,
       oldValue: secondObject[key],
+      newValue: '',
+      children: [],
     };
     return [...acc, result];
   }, []);
