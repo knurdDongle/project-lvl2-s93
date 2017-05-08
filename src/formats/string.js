@@ -24,7 +24,7 @@ const getString = (ast) => {
       if (obj.type === 'added') {
         return `${acc}\n${indent}  + ${obj.key}: ${stringify(obj.oldValue)}`;
       }
-      if ('children' in obj) {
+      if (obj.children.length > 0) {
         return `${acc}\n    ${indent}${obj.key}: {${iter(obj.children, lvl + 1)}\n    ${indent}}`;
       }
       return acc;
